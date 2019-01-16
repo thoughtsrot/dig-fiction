@@ -16,7 +16,6 @@ const app = express();
 // set up express middleware
 app.use(express.urlencoded({extended: true}));
 app.use(express.json());
-app.use(morgan('dev')); // for logging
 
 // We need to use sessions to keep track of our user's login status
 app.use(session({secret: "keyboard cat", resave: true, saveUninitialized: true}));
