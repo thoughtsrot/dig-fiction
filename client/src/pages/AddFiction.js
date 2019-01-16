@@ -5,6 +5,17 @@ import API from '../utils/API';
 
 class AddFiction extends Component {
 
+// code for reseting state is not DRY, should be able to clear form without repeating
+  initialState = {
+
+    title: "",
+    author: "",
+    storyBody: "",
+    notes: "",
+    collab: "",
+
+  }
+  
   state = {
 
     title: "",
@@ -24,8 +35,6 @@ class AddFiction extends Component {
   handleSubmit = event => {
     event.preventDefault();
 
-    saveStory = () => {
-
       API
         .saveStory({
           title: this.state.title,
@@ -36,10 +45,17 @@ class AddFiction extends Component {
         })
         .then(({ data }) => console.log(data))
         .catch(err => console.log(err));
-    }
+
+      this.setState(this.initialState);
+  
+
   }
 
   render() {
+
+    console.log(AddStoryForm)
+
+    return (
     <div>
       <div className="jumbotron jumbotron-fluid text-center">
         <h1 className="display-4">Plant a Seed</h1>
@@ -51,7 +67,9 @@ class AddFiction extends Component {
       />
 
     </div>
+    )
   }
+    
 }
 
 export default AddFiction

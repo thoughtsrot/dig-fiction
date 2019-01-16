@@ -1,10 +1,10 @@
 import React from 'react';
 
-const AddStoryForm = ({ onSubmit, onChange, value }) => {
+const AddStoryForm = ({ onSubmit, onChange, value: {title, author, storyBody, notes, collab} }) => {
 
   return (
     <form className="form-horizontal" onSubmit={onSubmit}>
-      <label className="control-label" for="title">Title:</label>
+      <label className="control-label" htmlFor="title">Title:</label>
       <input
         name="title"
         id="title"
@@ -12,9 +12,9 @@ const AddStoryForm = ({ onSubmit, onChange, value }) => {
         className="form-control border-success mb-2"
         type="text"
         onChange={onChange}
-        value={value}
+        value={title}
       />
-      <label className="control-label" for="author">Written by:</label>
+      <label className="control-label" htmlFor="author">Written by:</label>
       <input
         name="author"
         id="author"
@@ -22,9 +22,9 @@ const AddStoryForm = ({ onSubmit, onChange, value }) => {
         className="form-control border-success mb-2"
         type="text"
         onChange={onChange}
-        value={value}
+        value={author}
       />
-      <label className="control-label" for="storyBody">Paste in your story!</label>
+      <label className="control-label" htmlFor="storyBody">Paste in your story!</label>
       <textarea
         name="storyBody"
         id="storyBody"
@@ -33,9 +33,9 @@ const AddStoryForm = ({ onSubmit, onChange, value }) => {
         type="text"
         rows="10"
         onChange={onChange}
-        value={value}
+        value={storyBody}
       />
-      <label className="control-label" for="notes">Any notes on this writing?</label>
+      <label className="control-label" htmlFor="notes">Any notes on this writing?</label>
       <input
         name="notes"
         id="notes"
@@ -43,9 +43,9 @@ const AddStoryForm = ({ onSubmit, onChange, value }) => {
         className="form-control border-success mb-2"
         type="text"
         onChange={onChange}
-        value={value}
+        value={notes}
       />
-      <label className="control-label" for="collab">Allow others to collaborate on this story?</label>
+      <label className="control-label" htmlFor="collab">Allow others to collaborate on this story?</label>
       <input
         name="collab"
         id="collab"
@@ -53,7 +53,7 @@ const AddStoryForm = ({ onSubmit, onChange, value }) => {
         className="form-control border-success mb-2"
         type="text"
         onChange={onChange}
-        value={value}
+        value={collab}
       />
       <button 
         className="btn btn-block btn-outline-dark"

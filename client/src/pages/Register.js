@@ -1,46 +1,45 @@
-import React, {Component} from "react";
-import {Redirect} from "react-router-dom";
+import React, { Component } from "react";
+import { Redirect } from "react-router-dom";
 import API from "../utils/API";
 
 class Login extends Component {
   state = {
-    isLoggedIn: false,
+    success: false,
     username: "",
     password: ""
   }
-
+  
   handleInputChange = e => {
     const { name, value } = e.target;
-
     this.setState({
-      [name]: value
+      [name] : value
     })
   }
 
-  // Method to handle user login, should redirect to main page when done
-  login = (e) => {
+  // Method to register a new user
+  register = (e) => {
     e.preventDefault();
     API
-      .login({username: this.state.username, password: this.state.password})
+      .register({ username: this.state.username, password: this.state.password })
       .then(res => {
         console.log(res.data);
-        this.setState({isLoggedIn: res.data})
+        this.setState({ success: res.data })
 
       })
-      .catch(err => console.log(err.response));
+      .catch(err => console.log(err.response.data));
   }
 
   render() {
-    // If user is logged in, take them to main page
-    if (this.state.isLoggedIn) {
-      return <Redirect to="/"/>
+    // If Signup was a success, take them to the Login page
+    if (this.state.success) {
+      return <Redirect to="/login" />
     }
 
     return (
       <div className="container my-5">
         <div className="row justify-content-center">
           <form>
-            <h3>Login!</h3>
+            <h3>Sign Up!</h3>
             <div className="form-group">
               <label htmlFor="username">Username</label>
               <input
@@ -49,7 +48,7 @@ class Login extends Component {
                 value={this.state.username}
                 onChange={this.handleInputChange}
                 className="form-control"
-                placeholder="Username"/>
+                placeholder="Username" />
               <small id="usernameHelp" className="form-text text-muted">Enter your username</small>
             </div>
             <div className="form-group">
@@ -64,7 +63,7 @@ class Login extends Component {
               />
             </div>
 
-            <button type="submit" className="btn btn-success" onClick={this.login}>Login</button>
+            <button type="submit" className="btn btn-success" onClick={this.register}>Sign Up!</button>
           </form>
 
         </div>
