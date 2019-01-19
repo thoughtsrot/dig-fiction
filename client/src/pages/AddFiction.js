@@ -38,6 +38,21 @@ class AddFiction extends Component {
 
   }
 
+  componentDidMount() {
+
+    this.getUsername();
+
+  }
+
+  getUsername = () => {
+
+    API.loginCheck()
+      .then(({data}) => this.setState({author: data.username}))
+      .catch(err => console.log(err));
+
+    console.log(this.state.author)
+  }
+
   handleChange = event => {
     const { name, value } = event.target;
 

@@ -3,7 +3,7 @@ import React from 'react';
 const AddStoryForm = ({ onSubmit, onChange, value: {title, author, storyBody, notes, collab} }) => {
 
   return (
-    <container>
+    <div className="container my-3">
     <form className="form-horizontal" onSubmit={onSubmit}>
       <label className="control-label" htmlFor="title">Title:</label>
       <input
@@ -15,7 +15,7 @@ const AddStoryForm = ({ onSubmit, onChange, value: {title, author, storyBody, no
         onChange={onChange}
         value={title}
       />
-      <label className="control-label" htmlFor="author">Written by:</label>
+      {/* <label className="control-label" htmlFor="author">Written by:</label>
       <input
         name="author"
         id="author"
@@ -24,7 +24,7 @@ const AddStoryForm = ({ onSubmit, onChange, value: {title, author, storyBody, no
         type="text"
         onChange={onChange}
         value={author}
-      />
+      /> */}
       <label className="control-label" htmlFor="storyBody">Paste in your story!</label>
       <textarea
         name="storyBody"
@@ -51,7 +51,7 @@ const AddStoryForm = ({ onSubmit, onChange, value: {title, author, storyBody, no
         name="collab"
         id="collab"
         placeholder="Y/N"
-        className="form-control border-primary mx-2"
+        className="form-control border-success mb-2"
         type="text"
         onChange={onChange}
         value={collab}
@@ -64,7 +64,7 @@ const AddStoryForm = ({ onSubmit, onChange, value: {title, author, storyBody, no
       </button>
 
     </form>
-    </container>
+    </div>
   )
 }
 

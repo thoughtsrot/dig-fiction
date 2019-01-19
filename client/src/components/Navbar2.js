@@ -44,6 +44,12 @@ const Navbar = props => {
             to="/AddFiction">
             Add Fiction
           </NavLink>
+          <NavLink 
+            className={`nav-link text-secondary ${window.location.pathname === "/Logout" ? "text-info" : ""}`} 
+            to="/Logout">
+            Logout
+          </NavLink>
+          
         </li>
       </ul>
     </nav>

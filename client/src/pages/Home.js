@@ -16,7 +16,32 @@ const jumboStyle = {
 
 class Home extends Component {
 
+  state = {
+
+    isLoggedIn: ""
+
+  }
+
+componentDidMount() {
+
+  this.checkLogin();
+
+}
+
+checkLogin = () => {
+
+  API.loginCheck()
+    .then(({data}) => this.setState({isLoggedIn: data.isLoggedIn}))
+    .catch(err => console.log(err));
+
+  console.log(this.state.isLoggedIn)
+}
+
 render () {
+
+  if (this.state.isLoggedIn) {
+    return <Redirect to="/UserHome"/>
+  }
   
   return (
     <div>
@@ -31,5 +56,6 @@ render () {
 }
 
 }
+
 
 export default Home;

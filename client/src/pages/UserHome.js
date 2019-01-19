@@ -19,7 +19,9 @@ class UserHome extends Component {
     return (
       <div>
         <Navbar2/>
-
+        <div className="jumbotron jumbotron-fluid text-center">
+        <h1 className="display-4">Your Community Plot</h1>
+        </div>
       </div>
     )
   }

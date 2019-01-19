@@ -31,6 +31,10 @@ module.exports = {
   },
   // create / insert new story ("/api/story" => POST)
   create: function (req, res) {
+
+    // conditional for setting collab selection to boolean for backend
+
+    (req.body.collab === "Yes") ? (req.body.collab = true) : (req.body.collab = false )
     db.Story
       .create(req.body)
       .then(dbStoryData => res.json(dbStoryData))
