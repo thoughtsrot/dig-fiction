@@ -31,16 +31,16 @@ class Login extends Component {
   }
 
   render() {
-    // If user is logged in, take them to main page
+    // If user is logged in, take them to user Home
     if (this.state.isLoggedIn) {
-      return <Redirect to="/"/>
+      return <Redirect to="/UserHome"/>
     }
 
     return (
       <div className="container my-5">
         <div className="row justify-content-center">
           <form>
-            <h3>Login!</h3>
+            <h3>Please Login</h3>
             <div className="form-group">
               <label htmlFor="username">Username</label>
               <input

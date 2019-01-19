@@ -1,7 +1,19 @@
 // import form component, react and API.js from utils folder
 import React, { Component } from 'react';
-import AddStoryForm from '../components/AddStoryForm';
 import API from '../utils/API';
+
+import Navbar2 from "../components/Navbar2";
+import AddStoryForm from '../components/AddStoryForm';
+
+const jumboStyle = {
+  width: "100%",
+  height: "250px",
+  backgroundImage: "url(https://i1.wp.com/sierraseeds.org/wp-content/uploads/2013/11/seed-planting-drawing.jpg)",
+  backgroundPosition: '50% 80%',
+  backgroundSize: 'cover',
+  backgroundRepeat: 'no-repeat'
+
+}
 
 class AddFiction extends Component {
 
@@ -57,7 +69,8 @@ class AddFiction extends Component {
 
     return (
     <div>
-      <div className="jumbotron jumbotron-fluid text-center">
+      <Navbar2/>
+      <div className="jumbotron jumbotron-fluid text-center" style={jumboStyle}>
         <h1 className="display-4">Plant a Seed</h1>
       </div>
       <AddStoryForm

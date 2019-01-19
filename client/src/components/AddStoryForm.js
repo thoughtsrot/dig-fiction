@@ -3,6 +3,7 @@ import React from 'react';
 const AddStoryForm = ({ onSubmit, onChange, value: {title, author, storyBody, notes, collab} }) => {
 
   return (
+    <container>
     <form className="form-horizontal" onSubmit={onSubmit}>
       <label className="control-label" htmlFor="title">Title:</label>
       <input
@@ -50,7 +51,7 @@ const AddStoryForm = ({ onSubmit, onChange, value: {title, author, storyBody, no
         name="collab"
         id="collab"
         placeholder="Y/N"
-        className="form-control border-success mb-2"
+        className="form-control border-primary mx-2"
         type="text"
         onChange={onChange}
         value={collab}
@@ -63,6 +64,7 @@ const AddStoryForm = ({ onSubmit, onChange, value: {title, author, storyBody, no
       </button>
 
     </form>
+    </container>
   )
 }
 
