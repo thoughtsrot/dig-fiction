@@ -30,7 +30,8 @@ router
     // Log user out
     req.logout()
     console.log(req.user);
-    res.json(false);
+    // res.json(false);
+    res.redirect("/")
   })
 
 // Matches with "/api/user/:id"

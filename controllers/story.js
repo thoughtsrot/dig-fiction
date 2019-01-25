@@ -19,6 +19,20 @@ module.exports = {
         res.json(err);
       });
   },
+  // find all stories by username ("api/story/:author" => GET)
+  findByUser: function(req, res) {
+
+    db
+      .Story
+      .find({author: req.params.author})
+      .sort({publishDate: -1})
+      .then(dbStoryData => res.json(dbStoryData))
+      .catch(err => {
+          console.log(err);
+          res.json(err);
+      });
+  },
+
   // find a story by id ("/api/story/:id")
   findById: function (req, res) {
     db.Story
@@ -34,7 +48,7 @@ module.exports = {
 
     // conditional for setting collab selection to boolean for backend
 
-    (req.body.collab === "Yes") ? (req.body.collab = true) : (req.body.collab = false )
+    // (req.body.allowCollab === "Yes") ? (req.body.allowCollab = true) : (req.body.allowCollab = false )
     db.Story
       .create(req.body)
       .then(dbStoryData => res.json(dbStoryData))

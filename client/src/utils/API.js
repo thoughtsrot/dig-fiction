@@ -10,6 +10,10 @@ export default {
   getStories: function() {
     return axios.get('/api/story')
   },
+  // get all stories by username/author
+  getUserStories: function(author) {
+    return axios.get(`/api/story/${author}`)
+  },
   // get one story by ID
   getStoryById: function(storyId) {
     return axios.get(`/api/story/${storyId}`)

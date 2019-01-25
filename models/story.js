@@ -16,6 +16,7 @@ const storySchema = new Schema ({
   },
   image: {
     type: String,
+    default: "https://images.pexels.com/photos/1029141/pexels-photo-1029141.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500"
   },
   storyBody: {
     type: String,
@@ -28,6 +29,10 @@ const storySchema = new Schema ({
     type: Date,
     default: Date.now
   },
+  lastEdited: {
+    type: Date,
+    default: Date.now
+  },
   publishDate: {
     type: Date,
   },
@@ -36,8 +41,8 @@ const storySchema = new Schema ({
     default: "pending"
   },
   allowCollab: {
-    type: Boolean,
-    default: false
+    type: String,
+    default: "No"
   },
   allowComments: {
     type: Boolean,

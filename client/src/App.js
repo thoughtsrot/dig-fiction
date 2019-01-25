@@ -22,6 +22,7 @@ const App = () => {
           <Route exact path="/Register" component={Register}/>
           <Route exact path="/UserHome" component={UserHome}/>
           <Route exact path="/AddFiction" component={AddFiction}/>
+          <Route exact path="/Logout"/>
 
           <Route
             render={() => <h1 className="text-center">Did we lose you?

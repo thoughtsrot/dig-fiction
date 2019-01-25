@@ -1,6 +1,7 @@
 // import form component, react and API.js from utils folder
 import React, { Component } from 'react';
 import API from '../utils/API';
+import { Redirect } from "react-router-dom";
 
 import Navbar2 from "../components/Navbar2";
 import AddStoryForm from '../components/AddStoryForm';
@@ -20,28 +21,42 @@ class AddFiction extends Component {
 // code for reseting state is not DRY, should be able to clear form without repeating
   initialState = {
 
+    isLoggedIn: true,
+
     title: "",
     author: "",
     storyBody: "",
     notes: "",
-    collab: "",
+    allowCollab: "",
 
   }
   
   state = {
 
+    isLoggedIn: true,
+
     title: "",
     author: "",
     storyBody: "",
     notes: "",
-    collab: "",
+    allowCollab: "",
 
   }
 
   componentDidMount() {
 
+    this.checkLogin();
     this.getUsername();
 
+  }
+
+  checkLogin = () => {
+
+    API.loginCheck()
+      .then(({data}) => this.setState({isLoggedIn: data.isLoggedIn}))
+      .catch(err => console.log(err));
+  
+    console.log(this.state.isLoggedIn)
   }
 
   getUsername = () => {
@@ -50,7 +65,6 @@ class AddFiction extends Component {
       .then(({data}) => this.setState({author: data.username}))
       .catch(err => console.log(err));
 
-    console.log(this.state.author)
   }
 
   handleChange = event => {
@@ -68,7 +82,7 @@ class AddFiction extends Component {
           author: this.state.author,
           storyBody: this.state.storyBody,
           notes: this.state.notes,
-          collab: this.state.collab
+          allowCollab: this.state.allowCollab
         })
         .then(({ data }) => console.log(data))
         .catch(err => console.log(err));
@@ -79,6 +93,10 @@ class AddFiction extends Component {
   }
 
   render() {
+
+    if (!this.state.isLoggedIn) {
+      return <Redirect to="/"/>
+    }
 
     console.log(AddStoryForm)
 
@@ -100,5 +118,5 @@ class AddFiction extends Component {
     
 }
 
-export default AddFiction
+export default AddFiction;
 

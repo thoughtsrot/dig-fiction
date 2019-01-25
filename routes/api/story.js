@@ -8,6 +8,11 @@ router
   .get(storyController.findAll)
   .post(storyController.create);
 
+// routes using "/api/story/:author"
+router
+  .route("/:author")
+  .get(storyController.findByUser);
+
 // routes using "/api/story/:id"
 router
   .route("/:id")
