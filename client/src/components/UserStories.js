@@ -11,7 +11,7 @@ const UserStories = props => {
         <div className="card">
           <div className="card-header">
             <h5>{story.title}</h5>
-            <h6 className="font-italic"> Last revision: {moment(story.lastEdited).format('LLL')} </h6>
+            <h6 className="font-italic font-weight-light"> Last revision: {moment(story.lastEdited).format('LLL')} </h6>
           </div>
           <img src={story.image} alt={story.title} className="card-img" />
           <div className="card-body">
@@ -29,7 +29,7 @@ const UserStories = props => {
               <button
                 type="button"
                 className="btn btn-btn btn-dark"
-                
+                onClick={() => props.branchStory(i)}
               >
                 Cut
         </button>

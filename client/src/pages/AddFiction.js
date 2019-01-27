@@ -56,7 +56,6 @@ class AddFiction extends Component {
       .then(({data}) => this.setState({isLoggedIn: data.isLoggedIn}))
       .catch(err => console.log(err));
   
-    console.log(this.state.isLoggedIn)
   }
 
   getUsername = () => {
@@ -97,8 +96,6 @@ class AddFiction extends Component {
     if (!this.state.isLoggedIn) {
       return <Redirect to="/"/>
     }
-
-    console.log(AddStoryForm)
 
     return (
     <div>

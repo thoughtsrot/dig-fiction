@@ -23,8 +23,8 @@ export default {
     return axios.post('/api/story', storyData)
   },
   // edit saved story
-  updateStory: function(storyId) {
-    return axios.put(`/api/story/${storyId}`)
+  updateStory: function(storyId, revisedStory) {
+    return axios.put(`/api/story/${storyId}`, revisedStory)
   },
   // delete saved story
   deleteStory: function(storyId) {

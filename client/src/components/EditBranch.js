@@ -1,11 +1,13 @@
+// *********** CREATE FORM FOR EDITING NEW BRANCH *************
+
 import React from 'react';
 
-const EditStory = ({ onSubmit, onChange, story }) => {
+const BranchStory = ({ onSubmit, onChange, story }) => {
 
   return (
       
       <div>
-        <h3>You are now editing {story.title}</h3>
+        <h3>You are now editing a branch of {story.title}</h3>
         <div className="container my-3">
       <form className="form-horizontal" onSubmit={onSubmit}>
         <label className="control-label" htmlFor="title">Title:</label>
@@ -18,7 +20,7 @@ const EditStory = ({ onSubmit, onChange, story }) => {
           onChange={onChange}
           value={story.title}
         />
-        <label className="control-label" htmlFor="storyBody">Revise content here</label>
+        <label className="control-label" htmlFor="storyBody">Change content here</label>
         <textarea
           name="storyBody"
           id="storyBody"
@@ -29,11 +31,11 @@ const EditStory = ({ onSubmit, onChange, story }) => {
           onChange={onChange}
           value={story.storyBody}
         />
-        <label className="control-label" htmlFor="notes">Update notes here</label>
+        <label className="control-label" htmlFor="notes">Add branch notes here</label>
         <input
           name="notes"
           id="notes"
-          placeholder="(e.g just getting started..., fresh from the archives!, experimenting with a framing device, thesis project)"
+          placeholder="(e.g new ending, major restructuring...)"
           className="form-control border-success mb-2"
           type="text"
           onChange={onChange}
@@ -84,4 +86,4 @@ const EditStory = ({ onSubmit, onChange, story }) => {
 }
 
 
-export default EditStory;
+export default BranchStory;
