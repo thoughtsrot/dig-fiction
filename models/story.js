@@ -14,6 +14,9 @@ const storySchema = new Schema ({
     type: String,
     required: true
   },
+  collabAuthor: {
+    type: String,
+  },
   image: {
     type: String,
     default: "https://images.pexels.com/photos/1029141/pexels-photo-1029141.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500"
@@ -47,6 +50,16 @@ const storySchema = new Schema ({
   allowComments: {
     type: Boolean,
     default: false
+  },
+  isBranch: {
+    type: Boolean,
+    default: false
+  },
+  isBranchOf: {
+    type: String,
+  },
+  branchedOn: {
+    type: Date,
   }
 
 })

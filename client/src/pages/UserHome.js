@@ -5,6 +5,7 @@ import API from "../utils/API";
 import Navbar2 from "../components/Navbar2"
 import UserStories from "../components/UserStories"
 import EditStory from "../components/EditStory"
+import EditBranch from "../components/EditBranch"
 
 const jumboStyle = {
   width: "100%",
@@ -37,8 +38,6 @@ class UserHome extends Component {
 
     this.checkLogin();
     this.getUsername();
-    // this.getRecent();
-    // this.getUserCollabs();
 
   }
 
@@ -78,26 +77,25 @@ class UserHome extends Component {
       .catch(err => console.log(err));
   }
 
-  branchStory = (i) => {
-
-    this.setState({isEditing: true, currentBranch: this.state.stories[i]})
-
-  }
-
+  // updates state when user selects "Prune" button
   reviseStory = (i) => {
 
     this.setState({isEditing: true, currentEdit: this.state.stories[i]});
   
   }
 
-  handleChange = event => {
+  // method to update state when editing a story
+  handleEditChange = event => {
     const { name, value } = event.target;
 
     const currentEdit = {...this.state.currentEdit}
 
+
     currentEdit[name] = value
 
+
     this.setState({ currentEdit });
+
   }
 
   handleRevisions = event => {
@@ -119,10 +117,44 @@ class UserHome extends Component {
   this.getUserStories();
 
   }
-// ********ADD POST REQUEST TO THE HANDLEBRANCHING METHOD AND ADD 'isBranch' AND/OR 'isBranchOf' FIELD TO STORY MODEL*********
-  handleBranching = event => {
 
-    // POST METHOD HERE
+// update state when user selects "Cut" button
+  branchStory = (i) => {
+
+    this.setState({isBranching: true, currentBranch: this.state.stories[i], currentEdit: {title: this.state.stories[i].title}})
+
+  }
+
+  // method to update state when editing a branch
+  handleBranchChange = event => {
+    const { name, value } = event.target;
+
+    const currentBranch = {...this.state.currentBranch}
+
+    currentBranch[name] = value
+
+    this.setState({ currentBranch })
+
+  }
+
+  // method to handle saving branch as new story
+  handleBranching = event => {
+    event.preventDefault();
+
+    API
+    .saveStory({
+      title: this.state.currentBranch.title + "~branched~",
+      author: this.state.author,
+      storyBody: this.state.currentBranch.storyBody,
+      notes: this.state.currentBranch.notes,
+      allowCollab: this.state.currentBranch.allowCollab,
+      isBranch: true,
+      isBranchOf: this.state.currentEdit.title,
+      branchedOn: new Date().toISOString()
+    })
+
+    this.setState({isBranching: false})
+    this.getUserStories()
 
   }
 
@@ -149,7 +181,7 @@ class UserHome extends Component {
               // then render story that was clicked in editable form
               ? <EditStory
                   story={this.state.currentEdit}
-                  onChange={this.handleChange}
+                  onChange={this.handleEditChange}
                   onSubmit={this.handleRevisions}
                 />
               // else check if user clicked "Cut" button on a story
@@ -157,7 +189,8 @@ class UserHome extends Component {
               // then render story that was clicked in editable form
               ? <EditBranch
                   story={this.state.currentBranch}
-                  onChange={this.handleChange}
+                  rootTitle={this.state.currentEdit.title}
+                  onChange={this.handleBranchChange}
                   onSubmit={this.handleBranching}
                 />
                 // else render all user stories

@@ -2,12 +2,12 @@
 
 import React from 'react';
 
-const BranchStory = ({ onSubmit, onChange, story }) => {
+const EditBranch = ({ onSubmit, onChange, story, rootTitle }) => {
 
   return (
       
       <div>
-        <h3>You are now editing a branch of {story.title}</h3>
+        <h3>You are now editing a branch of {rootTitle}</h3>
         <div className="container my-3">
       <form className="form-horizontal" onSubmit={onSubmit}>
         <label className="control-label" htmlFor="title">Title:</label>
@@ -86,4 +86,4 @@ const BranchStory = ({ onSubmit, onChange, story }) => {
 }
 
 
-export default BranchStory;
+export default EditBranch;
