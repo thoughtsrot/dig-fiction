@@ -77,7 +77,14 @@ class UserHome extends Component {
   getAllStories = () => {
 
     API.getStories()
-      .then(({ data }) => this.setState({ communityStories: data }))
+      .then(({ data }) => {
+        if (data.length === 0) {
+          data = [{
+
+          }]
+        }
+        this.setState({ communityStories: data })
+      })
       .catch(err => console.log(err));
 
   }
@@ -107,7 +114,18 @@ class UserHome extends Component {
   getUserStories = () => {
 
     API.getUserStories(this.state.author)
-      .then(({ data }) => this.setState({ stories: data }))
+      .then(({ data }) => {
+      
+      if(data.length === 0) {
+        data = [{
+          
+          title: "Your Story Title",
+          storyBody: "Your story text"
+
+        }]
+      }
+      
+      this.setState({ stories: data })})
       .catch(err => console.log(err));
 
   }
