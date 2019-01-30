@@ -7,16 +7,7 @@ import UserStories from "../components/UserStories"
 import EditStory from "../components/EditStory"
 import EditBranch from "../components/EditBranch"
 import BrowseStories from "../components/BrowseStories"
-
-const jumboStyle = {
-  width: "100%",
-  height: "250px",
-  backgroundImage: "url(https://cdn4.vectorstock.com/i/1000x1000/16/93/sketch-tree-planting-vector-19341693.jpg)",
-  backgroundPosition: '0% 72%',
-  backgroundSize: 'cover',
-  backgroundRepeat: 'no-repeat',
-
-}
+import AddStoryForm from '../components/AddStoryForm';
 
 class UserHome extends Component {
 
@@ -29,6 +20,9 @@ class UserHome extends Component {
 
     isBranching: false,
     currentBranch: {},
+
+    isDigging: false,
+    currentDig: {},
 
     isBrowsing: false,
     communityStories: [],
@@ -90,8 +84,24 @@ class UserHome extends Component {
 
   browseCommunityStories = () => {
 
-    this.setState({ isBrowsing: true })
+    this.setState({
+      isBrowsing: true,
+      isBranching: false,
+      isEditing: false,
+      isDigging: false
 
+     })
+
+  }
+
+  sendUserHome = () => {
+
+    this.setState({
+      isBrowsing: false,
+      isBranching: false,
+      isEditing: false,
+      isDigging: false,
+    })
   }
 
   getUserStories = () => {
@@ -99,6 +109,49 @@ class UserHome extends Component {
     API.getUserStories(this.state.author)
       .then(({ data }) => this.setState({ stories: data }))
       .catch(err => console.log(err));
+
+  }
+
+  addNewStory = () => {
+
+    this.setState({
+      isDigging: true,
+      isBrowsing: false,
+      isBranching: false,
+      isEditing: false,
+    })
+
+  }
+
+  handleNewChange = event => {
+    const { name, value } = event.target;
+
+    const currentDig = {...this.state.currentDig}
+
+
+    currentDig[name] = value
+
+
+    this.setState({ currentDig });
+
+  }
+
+  handleNewStory = event => {
+    event.preventDefault();
+
+      API
+        .saveStory({
+          title: this.state.currentDig.title,
+          author: this.state.currentDig.author,
+          storyBody: this.state.currentDig.storyBody,
+          notes: this.state.currentDig.notes,
+          allowCollab: this.state.currentDig.allowCollab
+        })
+        .then(({ data }) => console.log(data))
+        .catch(err => console.log(err));
+
+      this.setState(this.initialState);
+  
 
   }
 
@@ -112,7 +165,12 @@ class UserHome extends Component {
   // updates state when user selects "Prune" button
   reviseStory = (i) => {
 
-    this.setState({isEditing: true, currentEdit: this.state.stories[i]});
+    this.setState({
+      isEditing: true, 
+      isBranching: false,
+      isBrowsing: false,
+      
+      currentEdit: this.state.stories[i]});
   
   }
 
@@ -153,7 +211,10 @@ class UserHome extends Component {
 // update state when user selects "Cut" button
   branchStory = (i) => {
 
-    this.setState({isBranching: true, currentBranch: this.state.stories[i], currentEdit: {title: this.state.stories[i].title}})
+    this.setState({
+      isBranching: true, 
+      currentBranch: this.state.stories[i], 
+      currentEdit: {title: this.state.stories[i].title}})
 
   }
 
@@ -203,12 +264,12 @@ class UserHome extends Component {
         <Navbar2
           onBrowse={this.browseCommunityStories}
           onLogout={this.handleLogout}
+          addNew={this.addNewStory}
+          goHome={this.sendUserHome}
           user={this.state.author}
         />
-        <div className="jumbotron jumbotron-fluid text-center mb-0" style={jumboStyle}>
-          <h1 className="display-4">Your Dig Plot</h1>
-        </div>
-        <div className="container-fluid">
+
+          <div className="container-fluid">
           <div className="row align-items-stretch">
             {/* Check if user has no stories*/}
             {!this.state.stories.length
@@ -231,11 +292,19 @@ class UserHome extends Component {
                   onChange={this.handleBranchChange}
                   onSubmit={this.handleBranching}
                 />
-              // else check is user clicked "Community" link
+              // else check if user clicked "DF Community" link
               : this.state.isBrowsing
               // then render all DF stories
               ? <BrowseStories
                 stories={this.state.communityStories}
+                />
+              // else check if user clicked "Add Fiction" link
+              : this.state.isDigging
+              // then render Add Fiction form
+              ? <AddStoryForm
+                onChange={this.handleNewChange}
+                onSubmit={this.handleNewStory}
+                value={this.state.currentDig}
                 />
               // else render all user stories
               : <UserStories 

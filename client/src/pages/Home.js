@@ -22,12 +22,32 @@ class Home extends Component {
     password: ""
   }
 
+
+
   handleInputChange = e => {
     const { name, value } = e.target;
 
     this.setState({
       [name]: value
     })
+  }
+
+  componentDidMount() {
+
+    this.checkLogin();
+
+  }
+
+  checkLogin = () => {
+
+    API.loginCheck()
+      .then(({ data }) => {
+        console.log(data);
+        this.setState({ isLoggedIn: data.isLoggedIn })
+      })
+      .catch(err => console.log(err));
+
+    console.log(this.state.isLoggedIn)
   }
 
   // Method to handle user login, should redirect to main page when done

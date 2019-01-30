@@ -2,7 +2,7 @@ import React from 'react';
 import { Link, NavLink } from 'react-router-dom';
 
 
-const Navbar2 = ({onLogout, onBrowse, user}) => {
+const Navbar2 = ({onLogout, onBrowse, goHome, addNew, user}) => {
 
   return (
     <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
@@ -28,18 +28,20 @@ const Navbar2 = ({onLogout, onBrowse, user}) => {
           </NavLink>
         </li>
         <li className="nav-item">
-          <NavLink
-            className={`nav-link text-secondary ${window.location.pathname === "/UserStories" ? "text-info" : ""}`}
-            to="/UserStories">
+          <button
+            className="btn btn-link text-secondary"
+            href=""
+            onClick={goHome}>
             Your Plot
-          </NavLink>
+          </button>
         </li>
         <li className="nav-item">
-          <NavLink
-            className={`nav-link text-secondary ${window.location.pathname === "/AddFiction" ? "text-info" : ""}`}
-            to="/AddFiction">
+          <button
+            className="btn btn-link text-secondary"
+            href=""
+            onClick={addNew}>
             Add Fiction
-          </NavLink>
+          </button>
         </li>
         <li className="nav-item">
           <button
@@ -55,7 +57,7 @@ const Navbar2 = ({onLogout, onBrowse, user}) => {
           <NavLink
             className="nav-link text-primary"
             to="/UserHome">
-          Logged in as, {user}
+          Hi, {user}
           </NavLink>
         </li>
         </ul>

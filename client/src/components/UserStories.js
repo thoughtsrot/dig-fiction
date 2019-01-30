@@ -1,12 +1,29 @@
 import React from 'react';
 import moment from 'moment'
 
+const jumboStyle = {
+  width: "100%",
+  height: "250px",
+  backgroundImage: "url(https://cdn4.vectorstock.com/i/1000x1000/16/93/sketch-tree-planting-vector-19341693.jpg)",
+  backgroundPosition: '0% 72%',
+  backgroundSize: 'cover',
+  backgroundRepeat: 'no-repeat',
+
+}
+
 
 const UserStories = props => {
 
   return (
-    props.stories.map((story, i) => {
+
+    <div>
+    <div className="jumbotron jumbotron-fluid text-center mb-0" style={jumboStyle}>
+    <h1 className="display-4">Your Dig Plot</h1>
+    </div>
+  
+    {props.stories.map((story, i) => {
     return (
+
       <div className="col-12 col-md-6 mb-2" key={story._id}>
         <div className="card">
           <div className="card-header">
@@ -44,10 +61,11 @@ const UserStories = props => {
           </div>
         </div>
       </div>
+  
 
     )
-  })
-    
+  })}
+  </div>
   )
 }
 
