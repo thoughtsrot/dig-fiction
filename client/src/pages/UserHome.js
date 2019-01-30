@@ -304,16 +304,16 @@ class UserHome extends Component {
                 onSubmit={this.handleNewStory}
                 value={this.state.currentDig}
                 />
-              :!this.state.stories.length
+              :this.state.stories.length
               // then if true, say...
-              ? (<h2>There's nothing to view just yet. Try adding some fiction!</h2>)
+              ? <UserStories 
+              stories={this.state.stories}
+              deleteStory={this.deleteStory}
+              branchStory={this.branchStory}
+              reviseStory={this.reviseStory}
+              />
               // else render all user stories
-              : <UserStories 
-                  stories={this.state.stories}
-                  deleteStory={this.deleteStory}
-                  branchStory={this.branchStory}
-                  reviseStory={this.reviseStory}
-                />
+              :(<h2>There's nothing to view just yet. Try adding some fiction!</h2>)
                     
             }
 
