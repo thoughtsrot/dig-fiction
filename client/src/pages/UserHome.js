@@ -272,11 +272,9 @@ class UserHome extends Component {
           <div className="container-fluid">
           <div className="row align-items-stretch">
             {/* Check if user has no stories*/}
-            {!this.state.stories.length
-            // then if true, say...
-              ? (<h2>There's nothing to view just yet. Try adding some fiction!</h2>)
-              // else check if user clicked "Prune" button on a story
-              : this.state.isEditing
+            {
+              // check if user clicked "Prune" button on a story
+              this.state.isEditing
               // then render story that was clicked in editable form
               ? <EditStory
                   story={this.state.currentEdit}
@@ -306,6 +304,9 @@ class UserHome extends Component {
                 onSubmit={this.handleNewStory}
                 value={this.state.currentDig}
                 />
+              :!this.state.stories.length
+              // then if true, say...
+              ? (<h2>There's nothing to view just yet. Try adding some fiction!</h2>)
               // else render all user stories
               : <UserStories 
                   stories={this.state.stories}
