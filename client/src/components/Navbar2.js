@@ -2,7 +2,7 @@ import React from 'react';
 import { Link, NavLink } from 'react-router-dom';
 
 
-const Navbar2 = props => {
+const Navbar2 = ({onLogout, onBrowse, user}) => {
 
   return (
     <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
@@ -13,11 +13,12 @@ const Navbar2 = props => {
       </Link>
       <ul className="nav">
         <li className="nav-item">
-          <NavLink
-            className={`nav-link text-secondary ${window.location.pathname === "/Browse" ? "text-info" : ""}`}
-            to="/Browse">
-            Browse Stories
-          </NavLink>
+          <button
+            className="btn btn-link text-secondary"
+            href=""
+            onClick={onBrowse}>
+            DF Community
+          </button>
         </li>
         <li className="nav-item">
           <NavLink
@@ -30,14 +31,7 @@ const Navbar2 = props => {
           <NavLink
             className={`nav-link text-secondary ${window.location.pathname === "/UserStories" ? "text-info" : ""}`}
             to="/UserStories">
-            Contributions
-          </NavLink>
-        </li>
-        <li className="nav-item">
-          <NavLink
-            className={`nav-link text-secondary ${window.location.pathname === "/UserCollabs" ? "text-info" : ""}`}
-            to="/UserCollabs">
-            Collaberations
+            Your Plot
           </NavLink>
         </li>
         <li className="nav-item">
@@ -48,13 +42,23 @@ const Navbar2 = props => {
           </NavLink>
         </li>
         <li className="nav-item">
-          <NavLink
-            className={`nav-link text-secondary ${window.location.pathname === "/Logout" ? "text-info" : ""}`}
-            to="/Logout">
+          <button
+            className="btn btn-link text-secondary"
+            href=""
+            onClick={onLogout}>
             Logout
+          </button>
+          </li>
+      </ul>
+      <ul className="nav ml-auto">
+          <li className="nav-item">
+          <NavLink
+            className="nav-link text-primary"
+            to="/UserHome">
+          Logged in as, {user}
           </NavLink>
         </li>
-      </ul>
+        </ul>
     </nav>
   )
 }

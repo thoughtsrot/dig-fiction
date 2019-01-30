@@ -2,6 +2,8 @@ import React, { Component } from "react";
 import { Redirect } from "react-router-dom";
 import API from "../utils/API";
 
+import Navbar1 from '../components/Navbar1'
+
 class Login extends Component {
   state = {
     success: false,
@@ -36,6 +38,8 @@ class Login extends Component {
     }
 
     return (
+      <div>
+      <Navbar1/>
       <div className="container my-5">
         <div className="row justify-content-center">
           <form>
@@ -67,6 +71,7 @@ class Login extends Component {
           </form>
 
         </div>
+      </div>
       </div>
     )
   }

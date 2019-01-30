@@ -14,7 +14,7 @@ const Navbar1 = props => {
           <NavLink 
             className={`nav-link text-secondary ${window.location.pathname === "/Browse" ? "text-info" : ""}`} 
             to="/Browse">
-            Browse Stories
+            Community
           </NavLink>
         </li>
         <li className="nav-item">
@@ -26,8 +26,8 @@ const Navbar1 = props => {
         </li>
         <li className="nav-item">
           <NavLink 
-            className={`nav-link text-secondary ${window.location.pathname === "/Login" ? "text-info" : ""}`}
-            to="/Login">
+            className={`nav-link text-secondary ${window.location.pathname === "/" ? "text-info" : ""}`}
+            to="/">
             Login
           </NavLink>
         </li>
@@ -35,7 +35,7 @@ const Navbar1 = props => {
           <NavLink 
             className={`nav-link text-secondary ${window.location.pathname === "/Register" ? "text-info" : ""}`} 
             to="/Register">
-            Sign Up!
+            Join DF
           </NavLink>
         </li>
       </ul>
