@@ -10,7 +10,7 @@ const jumboStyle = {
   height: "250px",
   backgroundImage: "url(https://www.abc.net.au/radionational/image/7535918-4x3-700x525.jpg)",
   backgroundPosition: '50% 70%',
-  backgroundSize: 'cover',
+  backgroundSize: 'stretch',
   backgroundRepeat: 'no-repeat'
 
 }
