@@ -19,7 +19,7 @@ const About = props => {
     </div>
   <div className="mx-2">
   <p>
-    As the name might suggest, <span className="text-success">DigFiction</span> is simply a community of fiction writers. There is no criteria for being a contributor other than being a writer who is interested in exploring the writing process with other writers. In other words, getting our hands dirty as we work to grow something beautiful together.
+    As the name might suggest, <span className="text-success">DigFiction</span> is simply a community of fiction writers. There is no criteria for being a contributor other than being a writer who is interested in exploring the creative process with other writers. In other words, getting our hands dirty as we work to grow something beautiful together.
   </p>
   <p>
     When visiting the site as a guest, you can freely explore the fiction of all contributors. As a contributor, you can publish new stories, edit or branch your stories, and collaborate with other contributing writers. To become a contributor, simply visit our registration page. Already registered? Just login and add fiction to get started.
