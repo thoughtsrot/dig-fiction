@@ -17,26 +17,24 @@ class UserHome extends Component {
 
     isLoggedIn: true,
 
-    goAbout: false,
-
-    isEditing: false,
-    currentEdit: {},
-
-    isBranching: false,
-    currentBranch: {},
-
-    isDigging: false,
-    currentDig: {},
-
-    isBrowsing: false,
-    communityStories: [],
-
-    isCollaborating: false,
-    currentCollab: [],
+    userStatus: "",
 
     author: [],
     stories: [],
-    collabs: []
+    collabs: [],
+
+    communityStories: [],
+
+    currentEdit: {},
+
+    currentBranch: {},
+
+    currentDig: {},
+
+    currentCollab: {},
+
+    currentRead: {},
+
 
   }
 
@@ -45,6 +43,7 @@ class UserHome extends Component {
     this.checkLogin();
     this.getUsername();
     this.getAllStories();
+    this.getUserCollabs();
 
   }
 
@@ -99,12 +98,7 @@ class UserHome extends Component {
   browseCommunityStories = () => {
 
     this.setState({
-      isBrowsing: true,
-      isBranching: false,
-      isEditing: false,
-      isDigging: false,
-      goAbout: false,
-      isCollaborating: false,
+      userStatus: "isBrowsing"
 
      })
 
@@ -113,12 +107,7 @@ class UserHome extends Component {
   readAbout = () => {
 
     this.setState({
-      goAbout: true,
-      isBrowsing: false,
-      isBranching: false,
-      isEditing: false,
-      isDigging: false,
-      isCollaborating: false,
+      userStatus: "isAbout"
 
      })
 
@@ -127,12 +116,8 @@ class UserHome extends Component {
   sendUserHome = () => {
 
     this.setState({
-      isBrowsing: false,
-      isBranching: false,
-      isEditing: false,
-      isDigging: false,
-      goAbout: false,
-      isCollaborating: false,
+      userStatus: ""
+
     })
   }
 
@@ -155,15 +140,29 @@ class UserHome extends Component {
 
   }
 
+  getUserCollabs = () => {
+
+    API.getUserCollabs(this.state.author)
+      .then(({ data }) => {
+      
+      if(data.length === 0) {
+        data = [{
+          collabAuthor: this.state.author,
+          title: " Story Title",
+          storyBody: "Try collaborating with another contributor. Then you can manage your content here."
+
+        }]
+      }
+      
+      this.setState({ collabs: data })})
+      .catch(err => console.log(err));
+
+  }
+
   startCollab = (i) => {
 
     this.setState({
-      isCollaborating: true,
-      isDigging: false,
-      isBrowsing: false,
-      isBranching: false,
-      isEditing: false,
-      goAbout: false,
+      userStatus: "isCollaborating",
 
       currentCollab: this.state.communityStories[i]
     })
@@ -195,20 +194,28 @@ class UserHome extends Component {
     .catch(err => console.log(err));
 
   // ******** ADD MODAL TO CONFIRM SUCCESSFUL UPDATE ********
-  this.setState({isCollaborating: false})
+  this.setState({userStatus: ""})
   this.getAllStories();
+
+  }
+
+  readStory = (i) => {
+  
+    this.setState({
+      userStatus: "isReading",
+
+      currentRead: this.state.communityStories[i],
+      
+    })
+    
 
   }
 
   startNewStory = () => {
 
     this.setState({
-      isDigging: true,
-      isBrowsing: false,
-      isBranching: false,
-      isEditing: false,
-      goAbout: false,
-      isCollaborating: false,
+      userStatus: "isDigging"
+
     })
 
   }
@@ -240,7 +247,7 @@ class UserHome extends Component {
         .then(({ data }) => console.log(data))
         .catch(err => console.log(err));
 
-      this.setState({isDigging: false});
+      this.setState({userStatus: ""});
       this.getUserStories();
   
 
@@ -257,12 +264,7 @@ class UserHome extends Component {
   startReviseStory = (i) => {
 
     this.setState({
-      isEditing: true, 
-      isBranching: false,
-      isBrowsing: false,
-      isDigging: false,
-      goAbout: false,
-      isCollaborating: false,
+      userStatus: "isEditing", 
       
       currentEdit: this.state.stories[i]
     });
@@ -298,7 +300,7 @@ class UserHome extends Component {
     .catch(err => console.log(err));
 
   // ******** ADD MODAL TO CONFIRM SUCCESSFUL UPDATE ********
-  this.setState({isEditing: false})
+  this.setState({userStatus: ""})
   this.getUserStories();
 
   }
@@ -307,7 +309,7 @@ class UserHome extends Component {
   branchStory = (i) => {
 
     this.setState({
-      isBranching: true, 
+      userStatus: "isBranching", 
       currentBranch: this.state.stories[i], 
       currentEdit: {title: this.state.stories[i].title}})
 
@@ -326,7 +328,7 @@ class UserHome extends Component {
   }
 
   // method to handle saving branch as new story
-  handleBranching = event => {
+  handleBranchSubmit = event => {
     event.preventDefault();
 
     API
@@ -341,7 +343,7 @@ class UserHome extends Component {
       branchedOn: new Date().toISOString()
     })
 
-    this.setState({isBranching: false})
+    this.setState({userStatus: ""})
     this.getUserStories()
 
   }
@@ -367,7 +369,7 @@ class UserHome extends Component {
           <div className="container-fluid">
             {
               // check if user clicked "Prune" button on a story
-              this.state.isEditing
+              (this.state.userStatus === "isEditing")
               // then render story that was clicked in editable form
               ? <EditStory
                   story={this.state.currentEdit}
@@ -375,42 +377,43 @@ class UserHome extends Component {
                   onSubmit={this.handleReviseSubmit}
                 />
               // else check if user clicked "Cut" button on a story
-              : this.state.isBranching
+              : (this.state.userStatus === "isBranching")
               // then render story that was clicked in editable form
               ? <EditBranch
                   story={this.state.currentBranch}
                   rootTitle={this.state.currentEdit.title}
                   onChange={this.handleBranchChange}
-                  onSubmit={this.handleBranching}
+                  onSubmit={this.handleBranchSubmit}
                 />
               // else check if user clicked "DF Community" link
-              : this.state.isBrowsing
+              : (this.state.userStatus === "isBrowsing")
               // then render all DF stories
               ? <BrowseStories
                   stories={this.state.communityStories}
                   onOpen={this.viewCommunityStory}
+                  onCollab={this.startCollab}
                 />
               // else check if user clicked "Add Fiction" link
-              : this.state.isDigging
+              : (this.state.userStatus === "isDigging")
               // then render Add Fiction form
               ? <AddStoryForm
                   onChange={this.handleNewChange}
                   onSubmit={this.handleNewSubmit}
                   value={this.state.currentDig}
                 />
-              :this.state.goAbout
+              : (this.state.userStatus === "isAbout")
               // render About text
               ? <About/>
               // else check if user is Collaborating
-              :this.state.isCollaborating
+              : (this.state.userStatus === "isCollaborating")
               // then render collaboration in Collaborate form
               ? <CollabForm
                   onChange={this.handleCollabChange}
-                  onSubmit={this.handleCollaboration}
-                  value={this.state.currentCollab}
+                  onSubmit={this.handleCollabSubmit}
+                  story={this.state.currentCollab}
                 />
               // else check if user has stories
-              :this.state.stories.length
+              : this.state.stories.length
               // then if true, render...
               ? <UserStories 
                   stories={this.state.stories}

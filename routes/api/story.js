@@ -13,6 +13,11 @@ router
   .route("/:author")
   .get(storyController.findByUser);
 
+
+router
+  .route("/:collabAuthor")
+  .get(storyController.findByCollab);
+
 // routes using "/api/story/:id"
 router
   .route("/:id")

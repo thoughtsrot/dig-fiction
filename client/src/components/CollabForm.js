@@ -8,7 +8,7 @@ const CollabForm = ({ onSubmit, onChange, story }) => {
         <h3>You are now collaborating with {story.author} on {story.title}</h3>
         <div className="container my-3">
       <form className="form-horizontal" onSubmit={onSubmit}>
-        <label className="control-label" htmlFor="storyBody">Collaberate here</label>
+        <label className="control-label" htmlFor="storyBody">Collaborate here</label>
         <textarea
           name="storyBody"
           id="storyBody"

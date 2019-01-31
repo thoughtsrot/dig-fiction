@@ -39,24 +39,17 @@ const BrowseStories = props => {
                   <button
                     type="button"
                     className="btn btn-btn btn-dark"
-                    onClick={() => props.readStory(i)}
+                    onClick={() => props.onOpen(i)}
                   >
                     Read
                   </button>
-                  {/* <button
-                    type="button"
-                    className="btn btn-btn btn-dark"
-                    onClick={() => props.collabStory(i)}
-                  >
-                    Collab
-                  </button>
+
                   <button
                     type="button"
                     className="btn btn-btn btn-dark"
-                    onClick={() => props.commentStory(i)}
-                  >
-                    Favorite
-                  </button> */}
+                    onClick={() => props.onCollab(i)}> Collab
+                  </button>
+                
                 </div>
               </div>
             </div>

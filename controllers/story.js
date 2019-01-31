@@ -33,6 +33,19 @@ module.exports = {
       });
   },
 
+  findByCollab: function(req, res) {
+
+    db
+      .Story
+      .find({collabAuthor: req.params.author})
+      .sort({publishDate: -1})
+      .then(dbStoryData => res.json(dbStoryData))
+      .catch(err => {
+          console.log(err);
+          res.json(err);
+      });
+  },
+
   // find a story by id ("/api/story/:id")
   findById: function (req, res) {
     db.Story
