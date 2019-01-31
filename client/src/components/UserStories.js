@@ -24,6 +24,8 @@ const UserStories = props => {
     {props.stories.map((story, i) => {
     return (
 
+    <div className="row align-items-stretch">
+
       <div className="col-12 col-md-6 mb-2" key={story._id}>
         <div className="card">
           <div className="card-header">
@@ -61,6 +63,7 @@ const UserStories = props => {
           </div>
         </div>
       </div>
+    </div>
   
 
     )

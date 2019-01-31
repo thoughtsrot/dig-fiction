@@ -9,6 +9,7 @@ import EditBranch from "../components/EditBranch";
 import BrowseStories from "../components/BrowseStories";
 import AddStoryForm from "../components/AddStoryForm";
 import About from "../components/About";
+import CollabForm from "../components/CollabForm";
 
 class UserHome extends Component {
 
@@ -29,6 +30,9 @@ class UserHome extends Component {
 
     isBrowsing: false,
     communityStories: [],
+
+    isCollaborating: false,
+    currentCollab: [],
 
     author: [],
     stories: [],
@@ -99,7 +103,8 @@ class UserHome extends Component {
       isBranching: false,
       isEditing: false,
       isDigging: false,
-      goAbout: false
+      goAbout: false,
+      isCollaborating: false,
 
      })
 
@@ -108,11 +113,12 @@ class UserHome extends Component {
   readAbout = () => {
 
     this.setState({
+      goAbout: true,
       isBrowsing: false,
       isBranching: false,
       isEditing: false,
       isDigging: false,
-      goAbout: true
+      isCollaborating: false,
 
      })
 
@@ -125,7 +131,8 @@ class UserHome extends Component {
       isBranching: false,
       isEditing: false,
       isDigging: false,
-      goAbout: false
+      goAbout: false,
+      isCollaborating: false,
     })
   }
 
@@ -136,7 +143,7 @@ class UserHome extends Component {
       
       if(data.length === 0) {
         data = [{
-          author: "Your Name",
+          author: this.state.author,
           title: "Your Story Title",
           storyBody: "Try adding fiction to view your content."
 
@@ -148,14 +155,60 @@ class UserHome extends Component {
 
   }
 
-  addNewStory = () => {
+  startCollab = (i) => {
+
+    this.setState({
+      isCollaborating: true,
+      isDigging: false,
+      isBrowsing: false,
+      isBranching: false,
+      isEditing: false,
+      goAbout: false,
+
+      currentCollab: this.state.communityStories[i]
+    })
+
+  }
+
+  handleCollabChange = event => {
+    const { name, value } = event.target;
+
+    const currentCollab = {...this.state.currentCollab}
+
+    currentCollab[name] = value
+
+    this.setState({ currentCollab })
+
+  }
+
+  handleCollabSubmit = event => {
+    event.preventDefault();
+
+    API
+    .updateStory(this.state.currentCollab._id, {
+      collabAuthor: this.state.author,
+      storyBody: this.state.currentCollab.storyBody,
+      notes: this.state.currentCollab.notes,
+      lastEdited: new Date().toISOString()
+    })
+    .then(({ data }) => console.log(data))
+    .catch(err => console.log(err));
+
+  // ******** ADD MODAL TO CONFIRM SUCCESSFUL UPDATE ********
+  this.setState({isCollaborating: false})
+  this.getAllStories();
+
+  }
+
+  startNewStory = () => {
 
     this.setState({
       isDigging: true,
       isBrowsing: false,
       isBranching: false,
       isEditing: false,
-      goAbout: false
+      goAbout: false,
+      isCollaborating: false,
     })
 
   }
@@ -173,7 +226,7 @@ class UserHome extends Component {
 
   }
 
-  handleNewStory = event => {
+  handleNewSubmit = event => {
     event.preventDefault();
 
       API
@@ -201,7 +254,7 @@ class UserHome extends Component {
   }
 
   // updates state when user selects "Prune" button
-  reviseStory = (i) => {
+  startReviseStory = (i) => {
 
     this.setState({
       isEditing: true, 
@@ -209,13 +262,15 @@ class UserHome extends Component {
       isBrowsing: false,
       isDigging: false,
       goAbout: false,
+      isCollaborating: false,
       
-      currentEdit: this.state.stories[i]});
+      currentEdit: this.state.stories[i]
+    });
   
   }
 
   // method to update state when editing a story
-  handleEditChange = event => {
+  handleReviseChange = event => {
     const { name, value } = event.target;
 
     const currentEdit = {...this.state.currentEdit}
@@ -228,7 +283,7 @@ class UserHome extends Component {
 
   }
 // method to save changes to DB when submitting edits
-  handleRevisions = event => {
+  handleReviseSubmit = event => {
     event.preventDefault();
 
     API
@@ -291,8 +346,7 @@ class UserHome extends Component {
 
   }
 
-  // methods for collaborations
-
+// rendering for UserHome with ternary for each option
   render() {
 
     if (!this.state.isLoggedIn) {
@@ -305,22 +359,20 @@ class UserHome extends Component {
           goBrowse={this.browseCommunityStories}
           goAbout={this.readAbout}
           goLogout={this.handleLogout}
-          goDig={this.addNewStory}
+          goDig={this.startNewStory}
           goHome={this.sendUserHome}
           user={this.state.author}
         />
 
           <div className="container-fluid">
-          <div className="row align-items-stretch">
-            {/* Check if user has no stories*/}
             {
               // check if user clicked "Prune" button on a story
               this.state.isEditing
               // then render story that was clicked in editable form
               ? <EditStory
                   story={this.state.currentEdit}
-                  onChange={this.handleEditChange}
-                  onSubmit={this.handleRevisions}
+                  onChange={this.handleReviseChange}
+                  onSubmit={this.handleReviseSubmit}
                 />
               // else check if user clicked "Cut" button on a story
               : this.state.isBranching
@@ -335,34 +387,43 @@ class UserHome extends Component {
               : this.state.isBrowsing
               // then render all DF stories
               ? <BrowseStories
-                stories={this.state.communityStories}
+                  stories={this.state.communityStories}
+                  onOpen={this.viewCommunityStory}
                 />
               // else check if user clicked "Add Fiction" link
               : this.state.isDigging
               // then render Add Fiction form
               ? <AddStoryForm
-                onChange={this.handleNewChange}
-                onSubmit={this.handleNewStory}
-                value={this.state.currentDig}
+                  onChange={this.handleNewChange}
+                  onSubmit={this.handleNewSubmit}
+                  value={this.state.currentDig}
                 />
               :this.state.goAbout
               // render About text
               ? <About/>
+              // else check if user is Collaborating
+              :this.state.isCollaborating
+              // then render collaboration in Collaborate form
+              ? <CollabForm
+                  onChange={this.handleCollabChange}
+                  onSubmit={this.handleCollaboration}
+                  value={this.state.currentCollab}
+                />
               // else check if user has stories
               :this.state.stories.length
               // then if true, render...
               ? <UserStories 
-              stories={this.state.stories}
-              deleteStory={this.deleteStory}
-              branchStory={this.branchStory}
-              reviseStory={this.reviseStory}
-              />
+                  stories={this.state.stories}
+                  deleteStory={this.deleteStory}
+                  branchStory={this.branchStory}
+                  reviseStory={this.startReviseStory}
+                />
               // else say
               :(<h2>There's nothing in your plot just yet. Try adding some fiction!</h2>)
                     
             }
 
-          </div>
+        
         </div>
       </div>
     )
