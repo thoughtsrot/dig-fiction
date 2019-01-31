@@ -118,9 +118,9 @@ class UserHome extends Component {
       
       if(data.length === 0) {
         data = [{
-          
+          author: "Your Name",
           title: "Your Story Title",
-          storyBody: "Your story text"
+          storyBody: "Try adding fiction to view your content."
 
         }]
       }
