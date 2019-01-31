@@ -38,7 +38,7 @@ module.exports = {
     db
       .Story
       .find({collabAuthor: req.params.collabAuthor})
-      .sort({publishDate: -1})
+      .sort({publishDate: 1})
       .then(dbStoryData => {
         console.log(dbStoryData)
         res.json(dbStoryData)
