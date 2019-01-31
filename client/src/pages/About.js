@@ -6,7 +6,7 @@ import Navbar2 from "../components/Navbar2";
 import Navbar1 from '../components/Navbar1';
 
 const jumboStyle = {
-  width: "90%",
+  width: "100%",
   height: "250px",
   backgroundImage: "url(https://www.abc.net.au/radionational/image/7535918-4x3-700x525.jpg)",
   backgroundPosition: '50% 70%',
