@@ -1,6 +1,6 @@
 import React from 'react';
 
-const AddStoryForm = ({ onSubmit, onChange, value: { title, author, storyBody, notes, allowCollab } }) => {
+const AddStoryForm = ({ onSubmit, onChange, value: { title, storyBody, notes } }) => {
 
   return (
     <div className="container my-3">

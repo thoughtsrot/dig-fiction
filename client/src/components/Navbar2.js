@@ -2,7 +2,7 @@ import React from 'react';
 import { Link, NavLink } from 'react-router-dom';
 
 
-const Navbar2 = ({onLogout, onBrowse, goHome, addNew, user}) => {
+const Navbar2 = ({goLogout, goBrowse, goHome, goAbout, goDig, user}) => {
 
   return (
     <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
@@ -16,16 +16,17 @@ const Navbar2 = ({onLogout, onBrowse, goHome, addNew, user}) => {
           <button
             className="btn btn-link text-secondary"
             href=""
-            onClick={onBrowse}>
+            onClick={goBrowse}>
             DF Community
           </button>
         </li>
         <li className="nav-item">
-          <NavLink
-            className={`nav-link text-secondary ${window.location.pathname === "/About" ? "text-info" : ""}`}
-            to="/About">
+          <button
+            className="btn btn-link text-secondary"
+            href=""
+            onClick={goAbout}>
             About
-          </NavLink>
+          </button>
         </li>
         <li className="nav-item">
           <button
@@ -39,7 +40,7 @@ const Navbar2 = ({onLogout, onBrowse, goHome, addNew, user}) => {
           <button
             className="btn btn-link text-secondary"
             href=""
-            onClick={addNew}>
+            onClick={goDig}>
             Add Fiction
           </button>
         </li>
@@ -47,7 +48,7 @@ const Navbar2 = ({onLogout, onBrowse, goHome, addNew, user}) => {
           <button
             className="btn btn-link text-secondary"
             href=""
-            onClick={onLogout}>
+            onClick={goLogout}>
             Logout
           </button>
           </li>

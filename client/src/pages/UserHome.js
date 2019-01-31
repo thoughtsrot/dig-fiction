@@ -2,18 +2,21 @@ import React, { Component } from "react";
 import { Redirect } from "react-router-dom";
 import API from "../utils/API";
 
-import Navbar2 from "../components/Navbar2"
-import UserStories from "../components/UserStories"
-import EditStory from "../components/EditStory"
-import EditBranch from "../components/EditBranch"
-import BrowseStories from "../components/BrowseStories"
-import AddStoryForm from '../components/AddStoryForm';
+import Navbar2 from "../components/Navbar2";
+import UserStories from "../components/UserStories";
+import EditStory from "../components/EditStory";
+import EditBranch from "../components/EditBranch";
+import BrowseStories from "../components/BrowseStories";
+import AddStoryForm from "../components/AddStoryForm";
+import About from "../components/About";
 
 class UserHome extends Component {
 
   state = {
 
     isLoggedIn: true,
+
+    goAbout: false,
 
     isEditing: false,
     currentEdit: {},
@@ -95,7 +98,21 @@ class UserHome extends Component {
       isBrowsing: true,
       isBranching: false,
       isEditing: false,
-      isDigging: false
+      isDigging: false,
+      goAbout: false
+
+     })
+
+  }
+
+  readAbout = () => {
+
+    this.setState({
+      isBrowsing: false,
+      isBranching: false,
+      isEditing: false,
+      isDigging: false,
+      goAbout: true
 
      })
 
@@ -108,6 +125,7 @@ class UserHome extends Component {
       isBranching: false,
       isEditing: false,
       isDigging: false,
+      goAbout: false
     })
   }
 
@@ -137,6 +155,7 @@ class UserHome extends Component {
       isBrowsing: false,
       isBranching: false,
       isEditing: false,
+      goAbout: false
     })
 
   }
@@ -160,7 +179,7 @@ class UserHome extends Component {
       API
         .saveStory({
           title: this.state.currentDig.title,
-          author: this.state.currentDig.author,
+          author: this.state.author,
           storyBody: this.state.currentDig.storyBody,
           notes: this.state.currentDig.notes,
           allowCollab: this.state.currentDig.allowCollab
@@ -168,7 +187,8 @@ class UserHome extends Component {
         .then(({ data }) => console.log(data))
         .catch(err => console.log(err));
 
-      this.setState(this.initialState);
+      this.setState({isDigging: false});
+      this.getUserStories();
   
 
   }
@@ -187,6 +207,8 @@ class UserHome extends Component {
       isEditing: true, 
       isBranching: false,
       isBrowsing: false,
+      isDigging: false,
+      goAbout: false,
       
       currentEdit: this.state.stories[i]});
   
@@ -205,7 +227,7 @@ class UserHome extends Component {
     this.setState({ currentEdit });
 
   }
-
+// method to save changes to DB when submitting edits
   handleRevisions = event => {
     event.preventDefault();
 
@@ -280,9 +302,10 @@ class UserHome extends Component {
     return (
       <div>
         <Navbar2
-          onBrowse={this.browseCommunityStories}
-          onLogout={this.handleLogout}
-          addNew={this.addNewStory}
+          goBrowse={this.browseCommunityStories}
+          goAbout={this.readAbout}
+          goLogout={this.handleLogout}
+          goDig={this.addNewStory}
           goHome={this.sendUserHome}
           user={this.state.author}
         />
@@ -322,16 +345,20 @@ class UserHome extends Component {
                 onSubmit={this.handleNewStory}
                 value={this.state.currentDig}
                 />
+              :this.state.goAbout
+              // render About text
+              ? <About/>
+              // else check if user has stories
               :this.state.stories.length
-              // then if true, say...
+              // then if true, render...
               ? <UserStories 
               stories={this.state.stories}
               deleteStory={this.deleteStory}
               branchStory={this.branchStory}
               reviseStory={this.reviseStory}
               />
-              // else render all user stories
-              :(<h2>There's nothing to view just yet. Try adding some fiction!</h2>)
+              // else say
+              :(<h2>There's nothing in your plot just yet. Try adding some fiction!</h2>)
                     
             }
 

@@ -1,12 +1,12 @@
 import React from 'react';
 import {Link, NavLink} from 'react-router-dom';
 
-const Navbar1 = ({onBrowse}) => {
+const Navbar1 = ({goBrowse, goAbout, goLogin}) => {
   return (
     <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
       <Link 
         className="navbar-brand" 
-        to="/">
+        to="/UserHome">
         DigFiction
       </Link>
       <ul className="nav">
@@ -14,23 +14,25 @@ const Navbar1 = ({onBrowse}) => {
           <button
             className="btn btn-link text-secondary"
             href=""
-            onClick={onBrowse}>
+            onClick={goBrowse}>
             DF Community
           </button>
         </li>
         <li className="nav-item">
-          <NavLink 
-            className={`nav-link text-secondary ${window.location.pathname === "/About" ? "text-info" : ""}`}
-            to="/About">
+          <button
+            className="btn btn-link text-secondary"
+            href=""
+            onClick={goAbout}>
             About
-          </NavLink>
+          </button>
         </li>
         <li className="nav-item">
-          <NavLink 
-            className={`nav-link text-secondary ${window.location.pathname === "/" ? "text-info" : ""}`}
-            to="/">
+          <button
+            className="btn btn-link text-secondary"
+            href=""
+            onClick={goLogin}>
             Login
-          </NavLink>
+          </button>
         </li>
         <li className="nav-item">
           <NavLink 

@@ -42,21 +42,21 @@ const UserStories = props => {
                 onClick={() => props.reviseStory(i)}
               >
                 Prune
-        </button>
+              </button>
               <button
                 type="button"
                 className="btn btn-btn btn-dark"
                 onClick={() => props.branchStory(i)}
               >
                 Cut
-        </button>
+              </button>
               <button
                 type="button"
                 className="btn btn-btn btn-dark"
                 onClick={() => props.deleteStory(story._id)}
               >
                 Uproot
-        </button>
+              </button>
             </div>
           </div>
         </div>
