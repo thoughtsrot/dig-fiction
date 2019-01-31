@@ -16,7 +16,8 @@ export default {
   },
   // get all stories by username/collabAuthor
   getUserCollabs: function(collabAuthor) {
-    return axios.get(`/api/story/${collabAuthor}`)
+    console.log(collabAuthor)
+    return axios.get(`/api/story/co${collabAuthor}`)
   },
   // get one story by ID
   getStoryById: function(storyId) {

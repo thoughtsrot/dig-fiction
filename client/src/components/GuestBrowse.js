@@ -12,7 +12,7 @@ const jumboStyle = {
 
 }
 
-const BrowseStories = props => {
+const GuestBrowse = props => {
 
   return (
 
@@ -42,15 +42,7 @@ const BrowseStories = props => {
                     onClick={() => props.onRead(i)}
                   >
                     Read
-                  </button>
-
-                  <button
-                    type="button"
-                    className="btn btn-btn btn-dark"
-                    onClick={() => props.onCollab(i)}>
-                    Collab
-                  </button>
-                
+                  </button>               
                 </div>
               </div>
             </div>
@@ -64,4 +56,4 @@ const BrowseStories = props => {
 }
 
 
-export default BrowseStories;
+export default GuestBrowse;

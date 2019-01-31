@@ -4,7 +4,8 @@ import API from "../utils/API";
 
 import Navbar1 from '../components/Navbar1'
 import About from "../components/About"
-import BrowseStories from "../components/BrowseStories";
+import GuestBrowse from "../components/GuestBrowse"
+import ReadStory from "../components/ReadStory"
 
 const jumboStyle = {
   width: "100%",
@@ -24,14 +25,35 @@ class Home extends Component {
     password: "",
 
     viewAbout: false,
-    isBrowsing: false
+    isBrowsing: false,
+    isReading: false,
+
+    communityStories: [],
+    currentRead: {}
   }
 
   componentDidMount() {
 
     this.checkLogin();
+    this.getAllStories();
 
   }
+
+  getAllStories = () => {
+
+    API.getStories()
+      .then(({ data }) => {
+        if (data.length === 0) {
+          data = [{
+
+          }]
+        }
+        this.setState({ communityStories: data })
+      })
+      .catch(err => console.log(err));
+
+  }
+
 
   handleInputChange = e => {
     const { name, value } = e.target;
@@ -45,6 +67,7 @@ class Home extends Component {
 
     this.setState({
       isBrowsing: false,
+      isReading: false,
       viewAbout: true
 
     })
@@ -55,17 +78,30 @@ class Home extends Component {
 
     this.setState({
       isBrowsing: true,
+      isReading: false,
       viewAbout: false
 
     })
 
   }
 
+  readStory = (i) => {
+
+    this.setState({
+      isReading: true,
+      isBrowsing: false,
+      viewAbout: false,
+
+      currentRead: this.state.communityStories[i]
+    })
+  }
+
   sendUserHome = () => {
 
     this.setState({
       isBrowsing: false,
-      goAbout: false
+      isReading: false,
+      viewAbout: false
     })
   }
 
@@ -112,11 +148,20 @@ class Home extends Component {
 
         {this.state.isBrowsing
 
-          ? <BrowseStories />
+          ? <GuestBrowse
+            stories={this.state.communityStories}
+            onRead={this.readStory}
+            />
 
           : this.state.viewAbout
 
           ? <About />
+          
+          :this.state.isReading
+          
+          ? <ReadStory
+            story={this.state.currentRead}
+            />
           
           :(<div> 
             <div className="jumbotron jumbotron-fluid text-center" style={jumboStyle}>

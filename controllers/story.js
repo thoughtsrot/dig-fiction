@@ -34,12 +34,15 @@ module.exports = {
   },
 
   findByCollab: function(req, res) {
-
+    console.log(req.params.collabAuthor)
     db
       .Story
-      .find({collabAuthor: req.params.author})
+      .find({collabAuthor: req.params.collabAuthor})
       .sort({publishDate: -1})
-      .then(dbStoryData => res.json(dbStoryData))
+      .then(dbStoryData => {
+        console.log(dbStoryData)
+        res.json(dbStoryData)
+      })
       .catch(err => {
           console.log(err);
           res.json(err);

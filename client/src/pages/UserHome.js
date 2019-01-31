@@ -10,6 +10,7 @@ import BrowseStories from "../components/BrowseStories";
 import AddStoryForm from "../components/AddStoryForm";
 import About from "../components/About";
 import CollabForm from "../components/CollabForm";
+import ReadStory from "../components/ReadStory"
 
 class UserHome extends Component {
 
@@ -43,7 +44,7 @@ class UserHome extends Component {
     this.checkLogin();
     this.getUsername();
     this.getAllStories();
-    this.getUserCollabs();
+    ;
 
   }
 
@@ -64,6 +65,7 @@ class UserHome extends Component {
     API.loginCheck()
       .then(({ data }) => this.setState({ author: data.username }))
       .then(this.getUserStories)
+      .then(this.getUserCollabs)
       .catch(err => console.log(err));
 
   }
@@ -102,6 +104,15 @@ class UserHome extends Component {
 
      })
 
+  }
+
+  readStory = (i) => {
+
+    this.setState({
+      userStatus: "isReading",
+
+      currentRead: this.state.communityStories[i]
+    })
   }
 
   readAbout = () => {
@@ -199,7 +210,7 @@ class UserHome extends Component {
 
   }
 
-  readStory = (i) => {
+  readCommunityStory = (i) => {
   
     this.setState({
       userStatus: "isReading",
@@ -390,7 +401,7 @@ class UserHome extends Component {
               // then render all DF stories
               ? <BrowseStories
                   stories={this.state.communityStories}
-                  onOpen={this.viewCommunityStory}
+                  onRead={this.readCommunityStory}
                   onCollab={this.startCollab}
                 />
               // else check if user clicked "Add Fiction" link
@@ -411,6 +422,12 @@ class UserHome extends Component {
                   onChange={this.handleCollabChange}
                   onSubmit={this.handleCollabSubmit}
                   story={this.state.currentCollab}
+                />
+            // else check if user is reading
+              : (this.state.userStatus === "isReading")
+            // then if true, render
+              ? <ReadStory
+                  story={this.state.currentRead}       
                 />
               // else check if user has stories
               : this.state.stories.length

@@ -15,7 +15,7 @@ router
 
 
 router
-  .route("/:collabAuthor")
+  .route("/co:collabAuthor")
   .get(storyController.findByCollab);
 
 // routes using "/api/story/:id"
