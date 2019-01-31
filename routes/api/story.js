@@ -10,7 +10,7 @@ router
 
 // routes using "/api/story/:author"
 router
-  .route("/:author")
+  .route("/user:author")
   .get(storyController.findByUser);
 
 
